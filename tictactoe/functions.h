@@ -2,10 +2,12 @@
 
 //#include<pair>
 #include<set> 
+#include<string> 
+#include <vector>
 
 
+void displayBoard(const std::vector<std::vector<char>>&gameboard);
+void playerTurn(std::vector<std::vector<char>>& gameboard, const std::string& pid);
 
 
-void displayBoard(char gameboard[4][4]);
-void player1Turn(char gameboard[4][4]);
-void player2Turn(char gameboard[4][4]);
+std::pair<int, int> convertStringInputToRowAndColumn(const std::string& input);
