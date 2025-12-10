@@ -1,11 +1,11 @@
 #include"functions.h"
-
+#include <vector>
 #include <iostream>
 #include <array>
 #include <string>
 
 
-std::set<std::pair<int, int>> playedPositions; //bad boy (no global vars)
+//std::set<std::pair<int, int>> playedPositions; //bad boy (no global vars)
 
 
 void displayBoard(char gameboard[4][4])
@@ -20,67 +20,72 @@ void displayBoard(char gameboard[4][4])
 	}
 }
 
-void player1Turn(char gameboard[4][4])
+void playerTurn(char gameboard[4][4], int player, std::vector<std::string> &playedPositions)
 {
 	bool turn = true;
 	std::string input{};
-	std::getline(std::cin, input);
+	char symbol{};
+	
+	
+	if (player == 1)
+	{
+		symbol = 'O';
+	}
+	else if (player == 2)
+	{
+		symbol = 'X';
+	}
 	while (turn)
 	{
-		if (input == "a1")
+		std::getline(std::cin, input);
+		if (std::find(playedPositions.begin(), playedPositions.end(), input) != playedPositions.end())
 		{
-			if (playedPositions.find({ 1, 1 }) == playedPositions.end())
-			{
-				gameboard[1][1] = 'O';
-				playedPositions.insert({ 1, 1 });
-				turn = false;
-			}
-
-			else
-			{
-				std::cout << "That spot is already taken\n";
-				std::getline(std::cin, input);
-			}
+			std::cout << "That position has already been taken. Please try again\n";
+		}
+		else if (input == "a1")
+		{
+			gameboard[1][1] = symbol;
+			turn = false;
 		}
 
 		else if (input == "a2")
 		{
-			gameboard[2][1] = 'O';
+			gameboard[2][1] = symbol;
 			turn = false;
 		}
 		else if (input == "a3")
 		{
-			gameboard[3][1] = 'O';
+			gameboard[3][1] = symbol;
 			turn = false;
 		}
 		else if (input == "b1")
 		{
-			gameboard[1][2] = 'O';
+			gameboard[1][2] = symbol;
 			turn = false;
 		}
 		else if (input == "b2")
 		{
-			gameboard[2][2] = 'O';
+			gameboard[2][2] = symbol;
 			turn = false;
 		}
 		else if (input == "b3")
 		{
-			gameboard[3][2] = 'O';
+			gameboard[3][2] = symbol;
 			turn = false;
 		}
 		else if (input == "c1")
 		{
-			gameboard[1][3] = 'O';
+			gameboard[1][3] = symbol;
 			turn = false;
 		}
 		else if (input == "c2")
 		{
-			gameboard[2][3] = 'O';
+			gameboard[2][3] = symbol;
 			turn = false;
 		}
 		else if (input == "c3")
 		{
-			gameboard[3][3] = 'O';
+			gameboard[3][3] = symbol;
 			turn = false;
 		}
 		else
@@ -88,75 +93,36 @@ void player1Turn(char gameboard[4][4])
 			std::cout << "That is not a valid input... try again\n";
 		}
 
-
+		
 	}
+	playedPositions.push_back(input);
 }
 
-void player2Turn(char gameboard[4][4])
+bool checkForWin(char gameboard[4][4], int player)
 {
-	bool turn = true;
-	std::string input{};
-	std::getline(std::cin, input);
-	while (turn)
+	if (((gameboard[1][1] == gameboard[2][2] && gameboard[1][1] == gameboard[3][3] && gameboard[1][1] != ' ') || 
+		(gameboard[1][1] == gameboard[1][2] && gameboard[1][1] == gameboard[1][3] && gameboard[1][1] != ' ')
+		|| (gameboard[1][1] == gameboard[2][1] && gameboard[1][1] == gameboard[3][1] && gameboard[1][1] != ' ') ||
+		(gameboard[3][1] == gameboard[2][2] && gameboard[3][1] == gameboard[1][3] && gameboard[3][1] != ' ')
+		|| (gameboard[2][1] == gameboard[2][2] && gameboard[2][1] == gameboard[2][3] && gameboard[2][1] != ' ') || 
+		(gameboard[3][1] == gameboard[3][2] && gameboard[3][1] == gameboard[3][3] && gameboard[3][1] != ' ')
+		|| (gameboard[1][2] == gameboard[2][2] && gameboard[3][2] == gameboard[1][2] && gameboard[1][2] != ' ') ||
+		(gameboard[1][3] == gameboard[2][3] && gameboard[1][3] == gameboard[3][3] && gameboard[1][3] != ' '))
+		)
 	{
-		if (input == "a1")
-		{
-			if (playedPositions.find({ 1, 1 }) == playedPositions.end())
-			{
-				gameboard[1][1] = 'O';
-				playedPositions.insert({ 1, 1 });
-				turn = false;
-			}
-
-			else
-			{
-				std::cout << "That spot is already taken\n";
-				std::getline(std::cin, input);
-			}
-		}
-		else if (input == "a2")
-		{
-			gameboard[2][1] = 'X';
-			turn = false;
-		}
-		else if (input == "a3")
-		{
-			gameboard[3][1] = 'X';
-			turn = false;
-		}
-		else if (input == "b1")
-		{
-			gameboard[1][2] = 'X';
-			turn = false;
-		}
-		else if (input == "b2")
-		{
-			gameboard[2][2] = 'X';
-			turn = false;
-		}
-		else if (input == "b3")
-		{
-			gameboard[3][2] = 'X';
-			turn = false;
-		}
-		else if (input == "c1")
-		{
-			gameboard[1][3] = 'X';
-			turn = false;
-		}
-		else if (input == "c2")
-		{
-			gameboard[2][3] = 'X';
-			turn = false;
-		}
-		else if (input == "c3")
-		{
-			gameboard[3][3] = 'X';
-			turn = false;
-		}
-		else
-		{
-			std::cout << "That is not a valid input... try again\n";
-		}
+		
+		std::cout << "Player " << player << " wins! \n";
+		return true;
+	
+	}
+	else if (gameboard[1][1] != ' ' && gameboard[1][2] != ' ' && gameboard[1][3] != ' ' && gameboard[2][1] != ' ' && gameboard[2][2] != ' ' && gameboard[2][3] != ' '
+		&& gameboard[3][1] != ' ' && gameboard[3][2] != ' ' && gameboard[3][3] != ' ')
+	{
+		std::cout << "All spaces are taken this is a cats game\n";
+		return true;
+	}
+	else
+	{
+		return false;
 	}
 }

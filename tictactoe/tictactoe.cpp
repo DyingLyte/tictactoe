@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 #include "functions.h"
 
 int main()
@@ -11,18 +12,35 @@ int main()
 	gameboard[0][1] = 'a';
 	gameboard[0][2] = 'b';
 	gameboard[0][3] = 'c';
+	for (int i = 1; i <= 3; ++i)
+	{
+		for (int j = 1; j <= 3; ++j)
+		{
+			gameboard[i][j] = ' ';
+		}
+	}
 	
 	displayBoard(gameboard);
-
-	std::cout << "\nHere is the gameboard for your selections use (a1) (b2) (c3) etc. \n";
+	std::vector<std::string> playedPositions{};
+	std::cout << "\nHere is the gameboard for your selections use (a1) (b2) (c3) etc... \n";
 	bool running = true;
 	while (running)
 	{
 		std::cout << "Player 1 select where you would like to place an (O)\n";
-		player1Turn(gameboard);
+		playerTurn(gameboard, 1, playedPositions);
 		displayBoard(gameboard);
+		
+		if (checkForWin(gameboard, 1))
+		{
+			return 0;
+		}
+		
 		std::cout << "Player 2 select where you would like to place an (X) \n";
-		player2Turn(gameboard);
+		playerTurn(gameboard, 2, playedPositions);
 		displayBoard(gameboard);
+		if (checkForWin(gameboard, 2))
+		{
+			return 0;
+		}
 	}
 }
